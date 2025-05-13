@@ -1,4 +1,4 @@
-using lab6.Models;
+using lab6.Graph;
 
 namespace lab6.Interfaces;
 

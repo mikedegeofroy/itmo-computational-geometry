@@ -1,4 +1,4 @@
-namespace lab6.Models;
+namespace lab6.Graph;
 
 internal class BisectorMap
 {
@@ -22,7 +22,7 @@ internal class BisectorMap
         return _data.Values;
     }
 
-    public IEnumerable<Edge> Stream()
+    public IEnumerable<Edge> GetEdges()
     {
         return _data.Values.AsEnumerable();
     }
