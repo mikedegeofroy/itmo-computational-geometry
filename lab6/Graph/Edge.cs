@@ -2,11 +2,15 @@ namespace lab6.Graph;
 
 public class Edge
 {
-    public Point Site1 { get; }
-    public Point Site2 { get; }
+    public Point? Site1 { get; }
+    public Point? Site2 { get; }
 
     public Vertex? A { get; set; }
     public Vertex? B { get; set; }
+
+    public Edge()
+    {
+    }
 
     public Edge(Point site1, Point site2)
     {

@@ -18,7 +18,7 @@ public class SvgRenderer : ISvgRenderer
         foreach (var edge in edges)
         {
             if (edge.A == null || edge.B == null)
-                continue; // skip unfinished edges
+                continue;
 
             var x1 = edge.A.Location.X * 10;
             var y1 = height - edge.A.Location.Y * 10;
@@ -26,6 +26,22 @@ public class SvgRenderer : ISvgRenderer
             var y2 = height - edge.B.Location.Y * 10;
 
             sb.AppendLine($"<line x1='{x1}' y1='{y1}' x2='{x2}' y2='{y2}' />");
+
+            if (edge.Site1 != null)
+            {
+                var sx = edge.Site1.X * 10;
+                var sy = height - edge.Site1.Y * 10;
+                sb.AppendLine(
+                    $"<circle cx='{sx.ToString(CultureInfo.InvariantCulture)}' cy='{sy.ToString(CultureInfo.InvariantCulture)}' r='3' />");
+            }
+
+            if (edge.Site2 != null)
+            {
+                var sx = edge.Site2.X * 10;
+                var sy = height - edge.Site2.Y * 10;
+                sb.AppendLine(
+                    $"<circle cx='{sx.ToString(CultureInfo.InvariantCulture)}' cy='{sy.ToString(CultureInfo.InvariantCulture)}' r='3' />");
+            }
         }
 
         sb.AppendLine("</svg>");

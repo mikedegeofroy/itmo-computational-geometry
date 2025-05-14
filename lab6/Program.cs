@@ -14,9 +14,11 @@ services.AddSingleton<Graph>();
 
 services.AddSingleton<ISvgRenderer, SvgRenderer>();
 services.AddSingleton<IVoronoiSolver, VoronoiSolver>();
+services.AddSingleton<IDelaunaySolver, DelaunaySolver>();
 
 var provider = services.BuildServiceProvider();
-var solver = provider.GetRequiredService<IVoronoiSolver>();
+var voronoiSolver = provider.GetRequiredService<IVoronoiSolver>();
+var delaunaySolver = provider.GetRequiredService<IDelaunaySolver>();
 var renderer = provider.GetRequiredService<ISvgRenderer>();
 
 var sites = new List<Point>
@@ -43,7 +45,10 @@ var sites = new List<Point>
 //     sites.Add(new Point(x, y));
 // }
 
-solver.Run(sites);
+voronoiSolver.Run(sites);
 
-var edges = solver.GetEdges();
+var edges = voronoiSolver.GetEdges();
 renderer.RenderToSvg(edges, "voronoi.svg");
+
+edges = delaunaySolver.Solve();
+renderer.RenderToSvg(edges, "delaunay.svg");

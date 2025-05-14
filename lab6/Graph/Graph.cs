@@ -47,10 +47,11 @@ public class Graph : IGraph
         return VoronoiPlane.TessellateOnce(
             _sites.Select(s => new VoronoiSite(s.X, s.Y)).ToList(),
             0, 0,
-            600, 600
+            600, 600,
+            BorderEdgeGeneration.DoNotMakeBorderEdges
         ).Select(x => new Edge(
-                new Point(x.Start.X, x.Start.Y),
-                new Point(x.End.X, x.End.Y))
+                new Point(x.Left.X, x.Left.Y),
+                new Point(x.Right.X, x.Right.Y))
             {
                 A = new Vertex(new Point(x.Start.X, x.Start.Y)),
                 B = new Vertex(new Point(x.End.X, x.End.Y))
