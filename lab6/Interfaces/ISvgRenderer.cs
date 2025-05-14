@@ -4,5 +4,5 @@ namespace lab6.Interfaces;
 
 public interface ISvgRenderer
 {
-    void RenderToSvg(IEnumerable<Edge> edges, string path, float width = 400, float height = 400);
+    void RenderToSvg(IEnumerable<Edge> edges, string path, double width = 400, double height = 400);
 }

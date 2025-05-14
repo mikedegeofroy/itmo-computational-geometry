@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using lab6.Interfaces;
+using SharpVoronoiLib;
 
 namespace lab6.Graph;
 
@@ -18,10 +19,6 @@ public class Graph : IGraph
         return _edges.Get(a, b);
     }
 
-    public IEnumerable<Edge> GetEdges()
-    {
-        return _edges.GetEdges();
-    }
 
     public void AddSite(Point newSite)
     {
@@ -43,5 +40,21 @@ public class Graph : IGraph
     public override int GetHashCode()
     {
         return HashCode.Combine(_sites, _edges);
+    }
+
+    public IEnumerable<Edge> GetEdges()
+    {
+        return VoronoiPlane.TessellateOnce(
+            _sites.Select(s => new VoronoiSite(s.X, s.Y)).ToList(),
+            0, 0,
+            600, 600
+        ).Select(x => new Edge(
+                new Point(x.Start.X, x.Start.Y),
+                new Point(x.End.X, x.End.Y))
+            {
+                A = new Vertex(new Point(x.Start.X, x.Start.Y)),
+                B = new Vertex(new Point(x.End.X, x.End.Y))
+            }
+        );
     }
 }

@@ -16,7 +16,7 @@ public class VoronoiSolver(IEventQueue eventQueue, IBeachLine beachline, IGraph 
             graph.AddSite(site);
         }
 
-        var sweep = float.MaxValue;
+        var sweep = double.PositiveInfinity;
         while (!eventQueue.IsEmpty)
         {
             var current = eventQueue.Dequeue();

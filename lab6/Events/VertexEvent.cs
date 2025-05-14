@@ -15,7 +15,7 @@ public class VertexEvent : IEvent
 
     private VertexEvent(LeafBeachNode l, LeafBeachNode c, LeafBeachNode r, Circle circle)
     {
-        Point = new Point((float)circle.Center.X, (float)(circle.Center.Y - circle.Radius));
+        Point = circle.Center with { Y = circle.Center.Y - circle.Radius };
         _l = l;
         _c = c;
         _r = r;
@@ -104,7 +104,7 @@ public class VertexEvent : IEvent
             }
             else
             {
-                Center = new Point((float)double.NaN, (float)double.NaN);
+                Center = new Point(double.NaN, double.NaN);
             }
 
             Radius = Math.Sqrt(Math.Pow(c.X - Center.X, 2) + Math.Pow(c.Y - Center.Y, 2));
@@ -127,7 +127,7 @@ public class VertexEvent : IEvent
                 y = -(x - (c.X + r.X) / 2.0) / mb + (c.Y + r.Y) / 2.0;
             }
 
-            return new Point((float)x, (float)y);
+            return new Point(x, y);
         }
 
         public bool IsValid()

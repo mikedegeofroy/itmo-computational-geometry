@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+      <PackageReference Include="SharpVoronoiLib" Version="1.0.4" />
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ namespace lab6.Services;
 
 public class SvgRenderer : ISvgRenderer
 {
-    public void RenderToSvg(IEnumerable<Edge> edges, string path, float width = 400, float height = 400)
+    public void RenderToSvg(IEnumerable<Edge> edges, string path, double width = 400, double height = 400)
     {
         var sb = new StringBuilder();
 

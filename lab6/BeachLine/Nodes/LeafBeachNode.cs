@@ -11,7 +11,7 @@ public class LeafBeachNode(Point site) : BeachNode
 
     public Point Site => _site;
 
-    private LeafBeachNode? Copy() => new(_site);
+    private LeafBeachNode Copy() => new(_site);
 
     public override InsertionResult InsertArc(Point newSite)
     {
@@ -55,50 +55,65 @@ public class LeafBeachNode(Point site) : BeachNode
 
     public LeafBeachNode? GetLeftNeighbor()
     {
-        var current = Parent;
-        var child = (BeachNode)this;
+        var node = this as BeachNode;
+        var parent = node.Parent;
 
-        while (current?.Parent is not null)
+        // Go up until we are a right child
+        while (parent != null && ReferenceEquals(parent.LeftChild, node))
         {
-            if (ReferenceEquals(current.RightChild, child))
-            {
-                return current.LeftChild.GetRightmostLeaf();
-            }
-
-            child = current;
-            current = current.Parent;
+            node = parent;
+            parent = parent.Parent;
         }
 
-        return null;
+        if (parent == null)
+            return null; // No neighbor on the left
+
+        // Go to the sibling and then as far right as possible
+        var neighbor = parent.LeftChild;
+        while (neighbor is InnerBeachNode inner)
+            neighbor = inner.RightChild;
+
+        return neighbor as LeafBeachNode;
     }
 
     public LeafBeachNode? GetRightNeighbor()
     {
-        var current = Parent;
-        var child = (BeachNode)this;
+        var node = this as BeachNode;
+        var parent = node.Parent;
 
-        while (current?.Parent is not null)
+        // Go up until we are a left child
+        while (parent != null && ReferenceEquals(parent.RightChild, node))
         {
-            if (ReferenceEquals(current.LeftChild, child))
-            {
-                return current.RightChild.GetLeftmostLeaf();
-            }
-
-            child = current;
-            current = current.Parent;
+            node = parent;
+            parent = parent.Parent;
         }
 
-        return null;
+        if (parent == null)
+            return null; // No neighbor on the right
+
+        // Go to the sibling and then as far left as possible
+        var neighbor = parent.RightChild;
+        while (neighbor is InnerBeachNode inner)
+            neighbor = inner.LeftChild;
+
+        return neighbor as LeafBeachNode;
     }
 
     private static VertexEvent? BuildEvent(LeafBeachNode center)
     {
         var left = center.GetLeftNeighbor();
         var right = center.GetRightNeighbor();
-        return (left != null && right != null)
-            ? VertexEvent.Build(left, center, right)
-            : null;
+
+        if (left == null || right == null)
+        {
+            return null;
+        }
+
+        var vertexEvent = VertexEvent.Build(left, center, right);
+
+        return vertexEvent;
     }
+
 
     public void AddCircleEvents(Action<IEvent> queue, double sweepY)
     {

@@ -5,8 +5,8 @@ public class Edge
     public Point Site1 { get; }
     public Point Site2 { get; }
 
-    public Vertex? A { get; private set; }
-    public Vertex? B { get; private set; }
+    public Vertex? A { get; set; }
+    public Vertex? B { get; set; }
 
     public Edge(Point site1, Point site2)
     {
